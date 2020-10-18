@@ -1,0 +1,4 @@
+﻿public enum BlockType
+{
+    SOLID,
+}

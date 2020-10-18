@@ -7,10 +7,11 @@ public class Player : MonoBehaviour
 {
     private BlockBase selectedBlock;
     public UnityAction<BlockBase> onBlockHover;
+    private Inventory inventory;
     // Start is called before the first frame update
     void Start()
     {
-
+        inventory = new Inventory();
     }
 
     // Update is called once per frame
@@ -31,6 +32,13 @@ public class Player : MonoBehaviour
         {
             selectedBlock.OnActive();
         }
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (CheckPlaceAble(position))
+                Debug.Log("can place");
+            else
+                Debug.Log("there was some block block the way");
+        }
     }
 
     public void BlockHover(BlockBase block)
@@ -38,5 +46,12 @@ public class Player : MonoBehaviour
         Debug.Log(block);
         selectedBlock = block;
         onBlockHover?.Invoke(selectedBlock);
+    }
+
+    public bool CheckPlaceAble(Vector3Int position)
+    {
+        if (GameManager.Instance.mainTile.GetTile<BlockBase>(position) != null)
+            return false;
+        return true;
     }
 }

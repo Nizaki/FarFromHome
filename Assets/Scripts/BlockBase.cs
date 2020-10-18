@@ -5,8 +5,11 @@ using UnityEngine.Tilemaps;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
+
+[System.Serializable]
 public class BlockBase : Tile
 {
+    public Sprite sprite;
     public BlockType blockType;
     public float hardness = 1f;
     public bool breakAble = true;

@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Item
-{ 
     public enum ItemType
     {
         Tool,
         Block,
-        Consume
+        Consume,
+        None
     }
+public class Item : ScriptableObject
+{
+    public GameObject prefab;
     public ItemType itemType;
     public int amount;
 }

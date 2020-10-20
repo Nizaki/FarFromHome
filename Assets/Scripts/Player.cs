@@ -7,12 +7,12 @@ public class Player : MonoBehaviour
 {
     private BlockBase selectedBlock;
     public UnityAction<BlockBase> onBlockHover;
-    private Inventory inventory;
     public BlockBase currentTile;
+    public InventoryObj inventory;
     // Start is called before the first frame update
     void Start()
     {
-        inventory = new Inventory();
+
     }
 
     // Update is called once per frame

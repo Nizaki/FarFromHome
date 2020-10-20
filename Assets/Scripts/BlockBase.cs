@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using System;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -9,7 +10,7 @@ using UnityEditor;
 [System.Serializable]
 public class BlockBase : Tile
 {
-    public Sprite sprite;
+    public string id;
     public BlockType blockType;
     public float hardness = 1f;
     public bool breakAble = true;
@@ -19,6 +20,13 @@ public class BlockBase : Tile
         if (blockType == BlockType.SOLID)
         {
             Debug.Log("nothing to show");
+        }
+        if(blockType == BlockType.FUNTIONAL)
+        {
+            if (gameObject != null)
+            {
+                gameObject.GetComponent<IBlock>().OnClick();
+            }
         }
     }
     // Start is called before the first frame update

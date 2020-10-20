@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     private BlockBase selectedBlock;
     public UnityAction<BlockBase> onBlockHover;
     private Inventory inventory;
+    public BlockBase currentTile;
     // Start is called before the first frame update
     void Start()
     {
@@ -35,7 +36,7 @@ public class Player : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             if (CheckPlaceAble(position))
-                Debug.Log("can place");
+                GameManager.Instance.mainTile.SetTile(position, currentTile);
             else
                 Debug.Log("there was some block block the way");
         }

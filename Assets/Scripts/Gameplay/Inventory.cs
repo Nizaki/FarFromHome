@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    private List<Item> itemList;
+    private List<ItemBase> itemList;
     public Inventory()
     {
-        itemList = new List<Item>();
+        itemList = new List<ItemBase>();
     }
 }

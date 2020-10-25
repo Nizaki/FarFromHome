@@ -9,9 +9,9 @@ using UnityEngine;
         Consume,
         None
     }
-public class Item : ScriptableObject
+public class ItemBase : ScriptableObject
 {
-    public GameObject prefab;
+    public Sprite itemPic;
     public ItemType itemType;
     public int amount;
 }

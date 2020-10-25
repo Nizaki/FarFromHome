@@ -18,6 +18,18 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Interact();
+        Move();
+    }
+
+    private void Move()
+    {
+        Vector2 move = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        this.transform.Translate(move * Time.deltaTime * 5);
+    }
+
+    private void Interact()
+    {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         Vector3 worldPoint = ray.GetPoint(-ray.origin.z / ray.direction.z);
         Vector3Int position = GameManager.Instance.mainTile.WorldToCell(worldPoint);
@@ -29,16 +41,19 @@ public class Player : MonoBehaviour
         }
         else BlockHover(GameManager.Instance.air);
 
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButton(1))
         {
-            selectedBlock.OnActive();
+            if (!selectedBlock.OnActive())
+            {
+                if (CheckPlaceAble(position))
+                    GameManager.Instance.mainTile.SetTile(position, currentTile);
+                else
+                    Debug.Log("there was some block block the way");
+            }
         }
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0))
         {
-            if (CheckPlaceAble(position))
-                GameManager.Instance.mainTile.SetTile(position, currentTile);
-            else
-                Debug.Log("there was some block block the way");
+            GameManager.Instance.mainTile.SetTile(position, null);
         }
     }
 

@@ -11,10 +11,10 @@ public class InventoryObj : ScriptableObject
 [System.Serializable]
 public class InventorySlot
 {
-    public Item item;
+    public ItemBase item;
     public int amount;
         
-    public InventorySlot(Item _item,int amount)
+    public InventorySlot(ItemBase _item,int amount)
     {
         this.item = _item;
         this.amount = amount;

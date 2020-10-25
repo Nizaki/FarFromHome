@@ -15,11 +15,11 @@ public class BlockBase : Tile
     public float hardness = 1f;
     public bool breakAble = true;
 
-    public void OnActive()
+    public bool OnActive()
     {
         if (blockType == BlockType.SOLID)
         {
-            Debug.Log("nothing to show");
+            return false;
         }
         if(blockType == BlockType.FUNTIONAL)
         {
@@ -28,6 +28,7 @@ public class BlockBase : Tile
                 gameObject.GetComponent<IBlock>().OnClick();
             }
         }
+        return true;
     }
     // Start is called before the first frame update
 #if UNITY_EDITOR

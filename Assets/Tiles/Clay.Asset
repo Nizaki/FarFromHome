@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 17634f44d2263e74d853567d1a5d0238, type: 3}
-  m_Name: Stone
+  m_Name: Clay
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 21300000, guid: ff18b46a62eee07469cbc6061e17669b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 60c2de3c851800747aea2ba436ea7ba9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1

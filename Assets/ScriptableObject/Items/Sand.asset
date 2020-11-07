@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 45b30768b2701df43bb09cad635b4b60, type: 3}
-  m_Name: Stone
+  m_Name: Sand
   m_EditorClassIdentifier: 
-  itemPic: {fileID: 21300000, guid: fb81b074cf9121f4b9c6b43087be9717, type: 3}
+  itemPic: {fileID: 21300000, guid: 205f8246fa158b7469deb8ac69bd56ea, type: 3}
   itemType: 1
   amount: 0
-  block: {fileID: 11400000, guid: 94c99d1ed92d55449b97f84a04092c51, type: 2}
+  block: {fileID: 11400000, guid: 6911c30b1dc4eaa4294b12c03f2b92d8, type: 2}

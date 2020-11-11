@@ -3,14 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System;
+using UnityScript.Macros;
+
 #if UNITY_EDITOR
+
 using UnityEditor;
+
 #endif
 
 [System.Serializable]
 public class BlockBase : Tile
 {
     public string id;
+    public string dropItemId = "";
     public BlockType blockType;
     public float hardness = 1f;
     public bool breakAble = true;
@@ -21,17 +26,15 @@ public class BlockBase : Tile
         {
             return false;
         }
-        if(blockType == BlockType.FUNTIONAL)
+        if (blockType == BlockType.FUNTIONAL)
         {
-            if (gameObject != null)
-            {
-                gameObject.GetComponent<IBlock>().OnClick();
-            }
         }
         return true;
     }
+
     // Start is called before the first frame update
 #if UNITY_EDITOR
+
     // The following is a helper that adds a menu item to create a RoadTile Asset
     [MenuItem("Assets/Create/Blocks/BlockBase")]
     public static void CreateRoadTile()
@@ -41,5 +44,6 @@ public class BlockBase : Tile
             return;
         AssetDatabase.CreateAsset(ScriptableObject.CreateInstance<BlockBase>(), path);
     }
+
 #endif
 }

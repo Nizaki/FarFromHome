@@ -6,7 +6,7 @@ using UnityEngine;
 public class HotbarPanel : MonoBehaviour
 {
     [SerializeField]
-    private InventoryObj inventory;
+    private Inventory inventory;
 
     [SerializeField]
     private GameObject ItemSlot;
@@ -19,6 +19,7 @@ public class HotbarPanel : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
+        inventory = GameManager.Instance.player.inventory;
         slotList = new List<GameObject>();
         player.onHotbarSelect += selectHotbar;
         CreateHotbar();
@@ -35,13 +36,17 @@ public class HotbarPanel : MonoBehaviour
         {
             var obj = Instantiate(ItemSlot, this.transform).GetComponent<HotbarSlot>();
             slotList.Add(obj.gameObject);
-            if (i <= inventory.Container.Count - 1)
+            if (i <= inventory.itemList.Count - 1)
             {
-                obj.itemPic.sprite = inventory.Container[i].item.itemPic;
-                obj.count.text = inventory.Container[i].amount.ToString();
+                obj.itemPic.sprite = inventory.itemList[i].Sprite;
+                obj.count.text = inventory.itemList[i].Count.ToString();
             }
             else
             {
+                Texture2D tex = new Texture2D(16, 16);
+
+                obj.itemPic.sprite = Sprite.Create(tex, new Rect(0, 0, 16, 16), new Vector2(8, 8));
+                obj.count.text = "";
                 continue;
             }
         }
@@ -49,6 +54,23 @@ public class HotbarPanel : MonoBehaviour
 
     private void UpdateHotbar()
     {
+        for (int i = 0; i < 9; i++)
+        {
+            var obj = slotList[i].GetComponent<HotbarSlot>();
+            if (i <= inventory.itemList.Count - 1)
+            {
+                obj.itemPic.sprite = inventory.itemList[i].Sprite;
+                obj.count.text = inventory.itemList[i].Count.ToString();
+            }
+            else
+            {
+                Texture2D tex = new Texture2D(16, 16);
+
+                obj.itemPic.sprite = Sprite.Create(tex, new Rect(0, 0, 16, 16), new Vector2(8, 8));
+                obj.count.text = "";
+                continue;
+            }
+        }
     }
 
     private void selectHotbar(int index)
@@ -64,8 +86,8 @@ public class HotbarPanel : MonoBehaviour
         slotList[8].GetComponent<HotbarSlot>().hightlight.SetActive(8 == index);
     }
 
-    // Update is called once per frame
-    private void Update()
+    private void LateUpdate()
     {
+        UpdateHotbar();
     }
 }

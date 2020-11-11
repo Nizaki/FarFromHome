@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using System.CodeDom;
+using System.Linq;
+using UnityEngine;
 using UnityEngine.Events;
 
 public class Player : MonoBehaviour
@@ -19,12 +22,15 @@ public class Player : MonoBehaviour
     [SerializeField]
     private int currestHotbarIndex = 0;
 
-    private BlockBase currentBlock;
+    private BlockBase hoverBlock;
     public UnityAction<BlockBase> onBlockHover;
     public UnityAction<int> onHotbarSelect;
     public BlockBase selectBlock;
-    public InventoryObj inventory;
-    public ItemBase selectedItem;
+    public Inventory inventory;
+    public Item selectedItem;
+
+    [SerializeField]
+    private float progress = 0;
 
     // Start is called before the first frame update
     private void Start()
@@ -33,7 +39,9 @@ public class Player : MonoBehaviour
         hunger = maxHunger;
         oxygen = maxOxygen;
         water = maxWater;
-        SelectHotbarSlot(currestHotbarIndex);
+        inventory.Init();
+        Debug.Log(ItemDB.Instance.ItemList[0]);
+        SelectHotbarSlot(0);
     }
 
     // Update is called once per frame
@@ -44,12 +52,18 @@ public class Player : MonoBehaviour
 
         if (Input.GetAxis("Mouse ScrollWheel") > 0)
         {
-            SelectHotbarSlot(currestHotbarIndex + 1);
+            SelectHotbarSlot(currestHotbarIndex - 1);
         }
         else if (Input.GetAxis("Mouse ScrollWheel") < 0)
         {
-            SelectHotbarSlot(currestHotbarIndex - 1);
+            SelectHotbarSlot(currestHotbarIndex + 1);
         }
+    }
+
+    private void LateUpdate()
+    {
+        SelectHotbarSlot(currestHotbarIndex);
+        selectBlock = selectedItem.block;
     }
 
     private void Move()
@@ -64,7 +78,9 @@ public class Player : MonoBehaviour
         Vector3 worldPoint = ray.GetPoint(-ray.origin.z / ray.direction.z);
         Vector3Int position = GameManager.Instance.mainTile.WorldToCell(worldPoint);
 
-        BlockBase tile = GameManager.Instance.mainTile.GetTile<BlockBase>(position);
+        BlockBase tile = GameManager.Instance.midleTile.GetTile<BlockBase>(position);
+        if (tile == null)
+            tile = GameManager.Instance.mainTile.GetTile<BlockBase>(position);
         if (tile != null)
         {
             BlockHover(tile);
@@ -73,17 +89,65 @@ public class Player : MonoBehaviour
 
         if (Input.GetMouseButton(1))
         {
-            if (!currentBlock.OnActive() && selectBlock != null)
+            if (hoverBlock.blockType != BlockType.FUNTIONAL && selectBlock != null)
             {
                 if (CheckPlaceAble(position))
-                    GameManager.Instance.mainTile.SetTile(position, selectBlock);
+                {
+                    switch (selectBlock.blockType)
+                    {
+                        case BlockType.OPAQUE:
+                        case BlockType.SOLID:
+                            GameManager.Instance.mainTile.SetTile(position, selectBlock);
+                            inventory.RemoveItem(selectedItem);
+                            break;
+
+                        case BlockType.FUNTIONAL:
+                            GameManager.Instance.midleTile.SetTile(position, selectBlock);
+                            inventory.RemoveItem(selectedItem);
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
                 else
                     Debug.Log("there was some block block the way");
+            }
+            else if (hoverBlock.blockType == BlockType.FUNTIONAL)
+            {
+                var roundPos = new Vector2(Mathf.Round(worldPoint.x), Mathf.Round(worldPoint.y));
             }
         }
         if (Input.GetMouseButton(0))
         {
-            GameManager.Instance.mainTile.SetTile(position, null);
+            if (hoverBlock != GameManager.Instance.air)
+            {
+                progress += Time.deltaTime;
+                if (progress > hoverBlock.hardness)
+                {
+                    switch (hoverBlock.blockType)
+                    {
+                        case BlockType.OPAQUE:
+                        case BlockType.SOLID:
+                            GameManager.Instance.mainTile.SetTile(position, null);
+                            break;
+
+                        case BlockType.FUNTIONAL:
+                            GameManager.Instance.midleTile.SetTile(position, null);
+                            break;
+
+                        default:
+                            break;
+                    }
+                    GameManager.Instance.SpawnItemByID(worldPoint, hoverBlock.dropItemId, 1);
+                    progress = 0;
+                }
+            }
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            progress = 0;
         }
     }
 
@@ -100,9 +164,9 @@ public class Player : MonoBehaviour
             return;
         }
         currestHotbarIndex = slot;
-        if (inventory.Container.Count - 1 >= slot)
+        if (inventory.itemList.ElementAt(slot) != null)
         {
-            selectedItem = inventory.Container[slot].item;
+            selectedItem = inventory.itemList.ElementAt(slot);
             selectBlock = selectedItem.block;
         }
         else
@@ -115,8 +179,8 @@ public class Player : MonoBehaviour
 
     public void BlockHover(BlockBase block)
     {
-        currentBlock = block;
-        onBlockHover?.Invoke(currentBlock);
+        hoverBlock = block;
+        onBlockHover?.Invoke(hoverBlock);
     }
 
     public bool CheckPlaceAble(Vector3Int position)

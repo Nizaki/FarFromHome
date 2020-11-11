@@ -13,8 +13,8 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
+  - Player
+  - Item
   - 
   - 
   - 
@@ -40,4 +40,13 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Bg
+    uniqueID: 1840461163
+    locked: 0
+  - name: Player
+    uniqueID: 678589909
+    locked: 0
+  - name: DropItem
+    uniqueID: 845058741
     locked: 0

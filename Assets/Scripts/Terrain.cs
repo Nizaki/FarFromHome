@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using TreeEditor;
-using Unity.Mathematics;
+﻿using CommandTerminal;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -14,13 +10,13 @@ public class Terrain : MonoBehaviour
 
     public Tilemap tilemap;
     public Tilemap backTile;
-    public BlockBase[] tiles;
     public int seed;
     public float perlinValue;
 
     // Start is called before the first frame update
     private void Start()
     {
+        Terminal.Shell.AddCommand("Gen", CommandGen, 0, 0, "Generate terrain");
     }
 
     // Update is called once per frame
@@ -40,6 +36,7 @@ public class Terrain : MonoBehaviour
         GenerateSurface();
         GenerateOre();
         GenerateBackground();
+        tilemap.RefreshAllTiles();
     }
 
     private void GenerateBackground()
@@ -50,8 +47,9 @@ public class Terrain : MonoBehaviour
             {
                 perlinValue = Mathf.PerlinNoise(seed / (seed.ToString().Length * 10f) + x / 10.0f, seed / (seed.ToString().Length * 10f) + y / 10.0f);
                 bool isblock = perlinValue > 0.02f;
+                var block = ItemDB.Instance.GetBlockById("stone");
                 if (isblock)
-                    backTile.SetTile(new Vector3Int(x, y, 0), tiles[0]);
+                    backTile.SetTile(new Vector3Int(x, y, 0), block);
             }
         }
         for (int y = size_y; y < size_y + 5; y++)
@@ -61,7 +59,7 @@ public class Terrain : MonoBehaviour
                 perlinValue = Mathf.PerlinNoise(seed / (seed.ToString().Length * 10f) + x / 10.0f, seed / (seed.ToString().Length * 10f) + y / 10.0f);
                 bool isblock = perlinValue > 0.02f;
                 if (isblock)
-                    backTile.SetTile(new Vector3Int(x, y, 0), tiles[1]);
+                    backTile.SetTile(new Vector3Int(x, y, 0), ItemDB.Instance.GetBlockById("dirt"));
             }
         }
     }
@@ -75,7 +73,7 @@ public class Terrain : MonoBehaviour
                 perlinValue = Mathf.PerlinNoise(seed / (seed.ToString().Length * 10f) + x / 10.0f, seed / (seed.ToString().Length * 10f) + y / 10.0f);
                 bool isblock = perlinValue > 0.3f;
                 if (isblock)
-                    tilemap.SetTile(new Vector3Int(x, y, 0), tiles[0]);
+                    tilemap.SetTile(new Vector3Int(x, y, 0), ItemDB.Instance.GetBlockById("stone"));
             }
         }
     }
@@ -91,31 +89,41 @@ public class Terrain : MonoBehaviour
                 bool isblock = perlinValue > 0.3f;
                 if (isblock)
                     if (y > size_y + 3)
-                        tilemap.SetTile(new Vector3Int(x, y, 0), tiles[2]);
+                        tilemap.SetTile(new Vector3Int(x, y, 0), ItemDB.Instance.GetBlockById("grass"));
                     else
-                        tilemap.SetTile(new Vector3Int(x, y, 0), tiles[1]);
+                        tilemap.SetTile(new Vector3Int(x, y, 0), ItemDB.Instance.GetBlockById("dirt"));
             }
         }
     }
 
     private void GenerateOre()
     {
-        int totalOre = 0;
-        float oreSeed = seed * 0.35f;
+        int goldOre = 0;
+        int ironOre = 0;
+        float ironSeed = seed * 0.35f * UnityEngine.Random.Range(0.0f, seed);
+        float goldSeed = seed * 0.15f * UnityEngine.Random.Range(0.0f, seed);
         for (int y = 0; y < size_y; y++)
         {
             for (int x = 0; x < size_x; x++)
             {
-                perlinValue = Mathf.PerlinNoise(oreSeed / (oreSeed.ToString().Length * 10f) + x / 10.0f, oreSeed / (oreSeed.ToString().Length * 10f) + y / 10.0f);
-                bool isblock = perlinValue < 0.15f;
-                if (isblock)
+                bool isIron = Mathf.PerlinNoise(ironSeed / (ironSeed.ToString().Length * 10f) + x / 10.0f, ironSeed / (ironSeed.ToString().Length * 10f) + y / 10.0f) < 0.15f;
+                if (isIron)
                 {
-                    tilemap.SetTile(new Vector3Int(x, y, 0), tiles[4]);
-                    totalOre += 1;
+                    tilemap.SetTile(new Vector3Int(x, y, 0), ItemDB.Instance.GetBlockById("ore_iron"));
+                    ironOre += 1;
+                }
+                if (y < 150)
+                {
+                    bool isGold = Mathf.PerlinNoise(goldSeed / (goldSeed.ToString().Length * 10f) + x / 10.0f, goldSeed / (goldSeed.ToString().Length * 10f) + y / 10.0f) < 0.13f;
+                    if (isGold)
+                    {
+                        tilemap.SetTile(new Vector3Int(x, y, 0), ItemDB.Instance.GetBlockById("ore_gold"));
+                        goldOre += 1;
+                    }
                 }
             }
         }
-        Debug.Log(totalOre);
+        Debug.Log($"Generated iron: {ironOre} gold: {goldOre} total: {ironOre + goldOre}");
     }
 
     public Vector2 PickSpawnPoint()
@@ -132,5 +140,12 @@ public class Terrain : MonoBehaviour
             }
         }
         return PickSpawnPoint();
+    }
+
+    [RegisterCommand(Help = "Generate terrain")]
+    private void CommandGen(CommandArg[] args)
+    {
+        if (Terminal.IssuedError) return; // Error will be handled by Terminal
+        Generate();
     }
 }

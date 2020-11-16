@@ -25,14 +25,14 @@ public class Inventory
     {
         if (itemList.Contains(itemList.Where(i => i.Id == item.Id).FirstOrDefault()))
         {
-            itemList.Find(i => i.Id == item.Id).Count += amount;
+            //itemList.Find(i => i.Id == item.Id).Count += amount;
             Debug.Log("add item " + item.Id + " " + amount + "ea.");
         }
         else
         {
             int index = itemList.IndexOf(itemList.Where(p => p.Id == "none").FirstOrDefault());
             if (index > -1)
-                itemList[index] = new Item(item.Id, item.Name, item.type, item.Sprite, item.Count, item.block);
+                itemList[index] = new Item(item.Id, item.Name, item.type);
             else
                 Debug.Log("Inventory Full");
         }
@@ -42,20 +42,20 @@ public class Inventory
     {
         if (itemList.Contains(itemList.Where(i => i.Id == item.Id).FirstOrDefault()))
         {
-            int index = itemList.IndexOf(itemList.Where(p => p.Id == item.Id).FirstOrDefault());
-            if (itemList[index].Count < amount)
-            {
-                Debug.LogWarning("item is not enough to remove");
-                return false;
-            }
-            itemList[index].Count -= amount;
-            if (itemList[index].Count <= 0)
-            {
-                Debug.Log("remove item " + itemList[index].Name);
-                itemList[index] = new Item("none", "none");
-                return true;
-            }
-            return true;
+            //int index = itemList.IndexOf(itemList.Where(p => p.Id == item.Id).FirstOrDefault());
+            //if (itemList[index].Count < amount)
+            //{
+            //    Debug.LogWarning("item is not enough to remove");
+            //    return false;
+            //}
+            //itemList[index].Count -= amount;
+            //if (itemList[index].Count <= 0)
+            //{
+            //    Debug.Log("remove item " + itemList[index].Name);
+            //    itemList[index] = new Item("none", "none");
+            //    return true;
+            //}
+            //return true;
         }
         Debug.LogWarning("Item not found");
         return false;

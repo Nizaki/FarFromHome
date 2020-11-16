@@ -22,7 +22,8 @@ public class InfoPanel : MonoBehaviour
 
     private void UpdateUI(BlockBase block)
     {
-        if (!block.sprite)
+        if (block == null) return;
+        if (block.sprite == null)
         {
             panel.gameObject.SetActive(false);
             return;

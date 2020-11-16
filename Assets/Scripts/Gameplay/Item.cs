@@ -13,20 +13,39 @@ public class Item
 
     public Sprite Sprite;
 
-    public int Count;
-    public BlockBase block;
-
-    public Item(string id, string name, itemType type = itemType.none, Sprite sprite = null, int count = 0, BlockBase block = null)
+    public Item(string id, string name, itemType type = itemType.none)
     {
         this.Id = id;
         this.Name = name;
         this.type = type;
-        this.Sprite = sprite;
-        this.Count = count;
-        this.block = block;
+        switch (type)
+        {
+            case itemType.none:
+            case itemType.eatable:
+            case itemType.equipment:
+            case itemType.machine:
+                this.Sprite = GetSprite("item/" + id);
+                break;
+
+            case itemType.block:
+                this.Sprite = GetSprite("block/" + id);
+                break;
+
+            default:
+                this.Sprite = GetSprite("Item/null");
+                break;
+        }
     }
 
     // public abstract void Use();
+    private Sprite GetSprite(string id)
+    {
+        var temp = Resources.Load<Sprite>(id);
+        if (temp != null)
+            return temp;
+        else
+            return Resources.Load<Sprite>("Item/null");
+    }
 }
 
 public enum itemType
@@ -34,5 +53,7 @@ public enum itemType
     none,
     eatable,
     block,
-    equipment
+    equipment,
+    air,
+    machine
 }

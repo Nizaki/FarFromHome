@@ -39,7 +39,7 @@ public class HotbarPanel : MonoBehaviour
             if (i <= inventory.itemList.Count - 1)
             {
                 obj.itemPic.sprite = inventory.itemList[i].Sprite;
-                obj.count.text = inventory.itemList[i].Count.ToString();
+                //obj.count.text = inventory.itemList[i].Count.ToString();
             }
             else
             {
@@ -60,7 +60,7 @@ public class HotbarPanel : MonoBehaviour
             if (i <= inventory.itemList.Count - 1)
             {
                 obj.itemPic.sprite = inventory.itemList[i].Sprite;
-                obj.count.text = inventory.itemList[i].Count.ToString();
+                //obj.count.text = inventory.itemList[i].Count.ToString();
             }
             else
             {

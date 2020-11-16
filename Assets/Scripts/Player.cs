@@ -63,13 +63,13 @@ public class Player : MonoBehaviour
     private void LateUpdate()
     {
         SelectHotbarSlot(currestHotbarIndex);
-        selectBlock = selectedItem.block;
+        selectBlock = ItemDB.Instance.GetBlockById(selectedItem.Id);
     }
 
     private void Move()
     {
         Vector2 move = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        this.transform.Translate(move * Time.deltaTime * 5);
+        this.transform.Translate(move * Time.deltaTime * 25);
     }
 
     private void Interact()
@@ -89,6 +89,8 @@ public class Player : MonoBehaviour
 
         if (Input.GetMouseButton(1))
         {
+            Debug.Log(hoverBlock.sprite.name);
+
             if (hoverBlock.blockType != BlockType.FUNTIONAL && selectBlock != null)
             {
                 if (CheckPlaceAble(position))
@@ -167,7 +169,7 @@ public class Player : MonoBehaviour
         if (inventory.itemList.ElementAt(slot) != null)
         {
             selectedItem = inventory.itemList.ElementAt(slot);
-            selectBlock = selectedItem.block;
+            //selectBlock = selectedItem.block;
         }
         else
         {

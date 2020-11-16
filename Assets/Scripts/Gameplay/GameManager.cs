@@ -50,11 +50,11 @@ public class GameManager : MonoBehaviour
 
     public void SpawnItemByID(Vector2 position, string id, int amount)
     {
-        var item = ItemDB.Instance.ItemList.Find((i) => i.Id == id);
+        var item = ItemDB.Instance.getItemByID(id);
         Debug.Log("spawn Item at : " + item);
         if (item != null)
         {
-            item.Count = amount;
+            //item.Count = amount;
             SpawnItem(position, item);
         }
         else

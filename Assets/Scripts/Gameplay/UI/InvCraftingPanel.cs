@@ -20,6 +20,7 @@ public class InvCraftingPanel : MonoBehaviour
             var resultItem = ItemDB.Instance.getItemByID(recipe.result);
             var go = Instantiate(craftItemPrefab, container.transform);
             var comp = go.GetComponent<CraftItems>();
+
             comp.image.sprite = resultItem.Sprite;
             comp.itemName.text = resultItem.Name;
         });

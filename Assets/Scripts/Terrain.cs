@@ -22,12 +22,6 @@ public class Terrain : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            tilemap.ClearAllTiles();
-            seed = UnityEngine.Random.Range(0, 1000);
-            StartCoroutine("GenerateCave");
-        }
     }
 
     public void Generate()

@@ -23,8 +23,11 @@ public class Item
             case itemType.none:
             case itemType.eatable:
             case itemType.equipment:
-            case itemType.machine:
                 this.Sprite = GetSprite("item/" + id);
+                break;
+
+            case itemType.machine:
+                this.Sprite = GetSprite("machine/" + id);
                 break;
 
             case itemType.block:
@@ -32,7 +35,7 @@ public class Item
                 break;
 
             default:
-                this.Sprite = GetSprite("Item/null");
+                this.Sprite = GetSprite("item/null");
                 break;
         }
     }
@@ -45,6 +48,10 @@ public class Item
             return temp;
         else
             return Resources.Load<Sprite>("Item/null");
+    }
+
+    public virtual void OnUse(Player player, Vector2 position)
+    {
     }
 }
 

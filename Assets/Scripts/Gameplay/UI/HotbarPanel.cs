@@ -38,8 +38,17 @@ public class HotbarPanel : MonoBehaviour
             slotList.Add(obj.gameObject);
             if (i <= inventory.itemList.Count - 1)
             {
-                obj.itemPic.sprite = inventory.itemList[i].Sprite;
-                //obj.count.text = inventory.itemList[i].Count.ToString();
+                if (inventory.itemList[i].item.type != itemType.air)
+                {
+                    obj.itemPic.sprite = inventory.itemList[i].item.Sprite;
+                    obj.count.text = inventory.itemList[i].amount.ToString();
+                }
+                else
+                {
+                    Texture2D tex = new Texture2D(16, 16);
+                    obj.itemPic.sprite = Sprite.Create(tex, new Rect(0, 0, 16, 16), new Vector2(8, 8));
+                    obj.count.text = "";
+                }
             }
             else
             {
@@ -59,8 +68,17 @@ public class HotbarPanel : MonoBehaviour
             var obj = slotList[i].GetComponent<HotbarSlot>();
             if (i <= inventory.itemList.Count - 1)
             {
-                obj.itemPic.sprite = inventory.itemList[i].Sprite;
-                //obj.count.text = inventory.itemList[i].Count.ToString();
+                if (inventory.itemList[i].item.type != itemType.air)
+                {
+                    obj.itemPic.sprite = inventory.itemList[i].item.Sprite;
+                    obj.count.text = inventory.itemList[i].amount.ToString();
+                }
+                else
+                {
+                    Texture2D tex = new Texture2D(16, 16);
+                    obj.itemPic.sprite = Sprite.Create(tex, new Rect(0, 0, 16, 16), new Vector2(8, 8));
+                    obj.count.text = "";
+                }
             }
             else
             {

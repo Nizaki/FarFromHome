@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
     public Terrain terrain;
 
     public Tilemap mainTile;
-    public Tilemap midleTile;
+    public GameObject machineHolder;
     public Tilemap backTile;
 
     public BlockBase air;
@@ -68,5 +68,10 @@ public class GameManager : MonoBehaviour
         var dropCom = go.GetComponent<DItem>();
         dropCom.itemDate = item;
         dropCom.itemRender.sprite = item.Sprite;
+    }
+
+    public void addItem(Item item, int amount = 1)
+    {
+        player.inventory.AddItem(item, amount);
     }
 }

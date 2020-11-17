@@ -7,6 +7,7 @@ public class DItem : MonoBehaviour
 {
     public SpriteRenderer itemRender;
     public Item itemDate;
+    public int amount = 1;
     public LayerMask player;
 
     private void Start()
@@ -43,7 +44,7 @@ public class DItem : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            //collision.gameObject.GetComponent<Player>().inventory.AddItem(itemDate, itemDate.Count);
+            collision.gameObject.GetComponent<Player>().inventory.AddItem(itemDate, amount);
             DestroySelf();
         }
     }

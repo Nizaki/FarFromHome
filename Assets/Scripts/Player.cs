@@ -40,8 +40,8 @@ public class Player : MonoBehaviour
         oxygen = maxOxygen;
         water = maxWater;
         inventory.Init();
-        Debug.Log(ItemDB.Instance.ItemList[0]);
         SelectHotbarSlot(0);
+        GameObject.Find("Inventory")?.GetComponent<InvPanel>().CreateInv();
     }
 
     // Update is called once per frame
@@ -63,7 +63,8 @@ public class Player : MonoBehaviour
     private void LateUpdate()
     {
         SelectHotbarSlot(currestHotbarIndex);
-        selectBlock = ItemDB.Instance.GetBlockById(selectedItem.Id);
+        if (selectedItem != null)
+            selectBlock = ItemDB.Instance.GetBlockById(selectedItem.Id);
     }
 
     private void Move()
@@ -77,47 +78,31 @@ public class Player : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         Vector3 worldPoint = ray.GetPoint(-ray.origin.z / ray.direction.z);
         Vector3Int position = GameManager.Instance.mainTile.WorldToCell(worldPoint);
-
-        BlockBase tile = GameManager.Instance.midleTile.GetTile<BlockBase>(position);
-        if (tile == null)
-            tile = GameManager.Instance.mainTile.GetTile<BlockBase>(position);
+        BlockBase tile = GameManager.Instance.mainTile.GetTile<BlockBase>(position);
         if (tile != null)
         {
             BlockHover(tile);
         }
         else BlockHover(GameManager.Instance.air);
 
-        if (Input.GetMouseButton(1))
+        if (Input.GetMouseButtonDown(1))
         {
-            Debug.Log(hoverBlock.sprite.name);
-
-            if (hoverBlock.blockType != BlockType.FUNTIONAL && selectBlock != null)
+            if (selectBlock != null && selectedItem.type == itemType.block)
             {
                 if (CheckPlaceAble(position))
                 {
-                    switch (selectBlock.blockType)
-                    {
-                        case BlockType.OPAQUE:
-                        case BlockType.SOLID:
-                            GameManager.Instance.mainTile.SetTile(position, selectBlock);
-                            inventory.RemoveItem(selectedItem);
-                            break;
-
-                        case BlockType.FUNTIONAL:
-                            GameManager.Instance.midleTile.SetTile(position, selectBlock);
-                            inventory.RemoveItem(selectedItem);
-                            break;
-
-                        default:
-                            break;
-                    }
+                    GameManager.Instance.mainTile.SetTile(position, selectBlock);
+                    inventory.RemoveItem(selectedItem);
                 }
                 else
                     Debug.Log("there was some block block the way");
             }
-            else if (hoverBlock.blockType == BlockType.FUNTIONAL)
+            else if (selectedItem.type == itemType.machine)
             {
-                var roundPos = new Vector2(Mathf.Round(worldPoint.x), Mathf.Round(worldPoint.y));
+                MachineItem tem = selectedItem as MachineItem;
+                Debug.Log(tem);
+                if (tem != null)
+                    tem.OnUse(this, worldPoint);
             }
         }
         if (Input.GetMouseButton(0))
@@ -132,10 +117,6 @@ public class Player : MonoBehaviour
                         case BlockType.OPAQUE:
                         case BlockType.SOLID:
                             GameManager.Instance.mainTile.SetTile(position, null);
-                            break;
-
-                        case BlockType.FUNTIONAL:
-                            GameManager.Instance.midleTile.SetTile(position, null);
                             break;
 
                         default:
@@ -168,7 +149,7 @@ public class Player : MonoBehaviour
         currestHotbarIndex = slot;
         if (inventory.itemList.ElementAt(slot) != null)
         {
-            selectedItem = inventory.itemList.ElementAt(slot);
+            selectedItem = inventory.itemList.ElementAt(slot).item;
             //selectBlock = selectedItem.block;
         }
         else

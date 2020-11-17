@@ -37,6 +37,7 @@ public class ItemDB : MonoBehaviour
         ItemList.Add(new Item("ore_iron", "ore_iron", itemType.block));
         ItemList.Add(new Item("ore_titanium", "ore_titanium", itemType.block));
         ItemList.Add(new Item("sand", "sand", itemType.block));
+        ItemList.Add(new MachineItem("furnace", "Furnace"));
         BuildBlock();
     }
 

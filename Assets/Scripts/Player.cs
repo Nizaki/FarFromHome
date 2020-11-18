@@ -76,6 +76,7 @@ public class Player : MonoBehaviour
     private void Interact()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3 worldPoint = ray.GetPoint(-ray.origin.z / ray.direction.z);
         Vector3Int position = GameManager.Instance.mainTile.WorldToCell(worldPoint);
         BlockBase tile = GameManager.Instance.mainTile.GetTile<BlockBase>(position);
@@ -87,6 +88,15 @@ public class Player : MonoBehaviour
 
         if (Input.GetMouseButtonDown(1))
         {
+            RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
+            if (hit.collider != null)
+            {
+                if (hit.transform.tag == "Machine")
+                {
+                    hit.transform.GetComponent<Machine>().OnUse();
+                }
+            }
+
             if (selectBlock != null && selectedItem.type == itemType.block)
             {
                 if (CheckPlaceAble(position))

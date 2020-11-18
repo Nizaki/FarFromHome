@@ -23,6 +23,7 @@ public class Item
             case itemType.none:
             case itemType.eatable:
             case itemType.equipment:
+            case itemType.air:
                 this.Sprite = GetSprite("item/" + id);
                 break;
 

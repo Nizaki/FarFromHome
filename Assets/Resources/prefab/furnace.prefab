@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 2633019434177579142}
   - component: {fileID: 859069323916640731}
   - component: {fileID: 7372874278256854393}
-  m_Layer: 0
+  - component: {fileID: -6972334352729074297}
+  m_Layer: 10
   m_Name: furnace
-  m_TagString: Untagged
+  m_TagString: Machine
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -130,3 +131,15 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 5
+--- !u!114 &-6972334352729074297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4214246897594057047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e3f82f753605974bb7fc9306bea607c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -21,6 +21,7 @@ public class Inventory
             itemList.Add(new ItemStack(ItemDB.Instance.getItemByID("air"), 0));
         }
         GameManager.Instance.addItem(ItemDB.Instance.getItemByID("furnace"));
+        GameManager.Instance.addItem(ItemDB.Instance.getItemByID("stone"), 99);
     }
 
     public void AddItem(Item item, int amount = 1)

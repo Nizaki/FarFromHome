@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//TODO:use hard code instead of scriptableObject
 [CreateAssetMenu(fileName = "CraftDB", menuName = "DB/craftDB", order = 1)]
 public class CraftDB : ScriptableObject
 {
@@ -17,7 +18,7 @@ public class CraftRecipe
     public int amount;
 
     [Tooltip("Ingredient id")]
-    public Ingredient[] ingredient;
+    public List<Ingredient> ingredient;
 }
 
 [System.Serializable]

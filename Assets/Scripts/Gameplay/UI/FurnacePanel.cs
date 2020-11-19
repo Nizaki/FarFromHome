@@ -8,14 +8,46 @@ public class FurnacePanel : MonoBehaviour
     public ItemSlot resultSlot;
     public GameObject slotPrefab;
     public GameObject Parent;
-
-    private bool isInit;
+    public Item air;
     private bool haveItem = false;
+
+    private void Start()
+    {
+        Init();
+    }
+
+    private void OnEnable()
+    {
+        updateInventory();
+    }
 
     public void Init()
     {
-        int i = 0;
         Debug.Log("init Furnace");
+        air = ItemDB.Instance.getItemByID("air");
+        updateInventory();
+        resultSlot.gameObject.AddComponent<Button>().onClick.AddListener(() =>
+        {
+            if (resultSlot.item.item != ItemDB.Instance.getItemByID("air"))
+            {
+                GameManager.Instance.player.inventory.AddItem(resultSlot.item.item, resultSlot.item.amount);
+                resultSlot.ResetSlot();
+                updateInventory();
+            }
+        });
+        inputSlot.gameObject.AddComponent<Button>().onClick.AddListener(() =>
+        {
+            if (inputSlot.item.item != ItemDB.Instance.getItemByID("air"))
+            {
+                GameManager.Instance.player.inventory.AddItem(inputSlot.item.item, inputSlot.item.amount);
+                inputSlot.ResetSlot();
+                updateInventory();
+            }
+        });
+    }
+
+    private void updateInventory()
+    {
         foreach (Transform child in Parent.transform)
         {
             Destroy(child.gameObject);
@@ -30,13 +62,18 @@ public class FurnacePanel : MonoBehaviour
 
             button.onClick.AddListener(() =>
             {
-                inputSlot.SetItem(item);
+                if (inputSlot.item.item != ItemDB.Instance.getItemByID("air"))
+                {
+                    GameManager.Instance.player.inventory.AddItem(inputSlot.item.item, inputSlot.item.amount);
+                }
+                inputSlot.SetItem(new ItemStack(item.item, item.amount));
+                GameManager.Instance.player.inventory.RemoveItem(item.item, item.amount);
+                slot.UpdateUI();
+                updateInventory();
                 SlotClick();
                 haveItem = true;
             });
-            i++;
         });
-        isInit = true;
     }
 
     private void Update()
@@ -45,32 +82,40 @@ public class FurnacePanel : MonoBehaviour
         {
             Init();
         }
-        if (isInit && haveItem)
+        if (haveItem)
         {
             if (inputSlot.item.item == ItemDB.Instance.getItemByID("air"))
                 return;
-            var slot = inputSlot.item;
-            Debug.Log(slot.amount);
-            if (Recipes.get.match(slot.item))
+            var iSlot = inputSlot.item;
+            var oSlot = resultSlot.item;
+            if (resultSlot.item.item != air)
             {
-                var result = Recipes.get.Find(slot.item);
-
-                slot.amount -= 1;
-                if (slot.amount <= 0)
+                if (Recipes.get.Match(iSlot.item, oSlot.item))
                 {
-                    inputSlot.item = new ItemStack(ItemDB.Instance.getItemByID("air"));
+                    var result = Recipes.get.Find(iSlot.item);
+
+                    iSlot.amount -= 1;
+                    if (iSlot.amount <= 0)
+                    {
+                        inputSlot.ResetSlot();
+                        haveItem = false;
+                    }
+                    resultSlot.item.amount += result.amount;
+                    inputSlot.UpdateUI();
+                    resultSlot.UpdateUI();
+                }
+            }
+            else if (Recipes.get.match(iSlot.item))
+            {
+                var result = Recipes.get.Find(iSlot.item);
+
+                iSlot.amount -= 1;
+                if (iSlot.amount <= 0)
+                {
+                    inputSlot.ResetSlot();
                     haveItem = false;
                 }
-                if (resultSlot.item.item == result.item)
-                {
-                    Debug.Log("add item");
-                    resultSlot.item.amount += result.amount;
-                }
-                else
-                {
-                    Debug.Log("new Item");
-                    resultSlot.SetItem(new ItemStack(result.item, result.amount));
-                }
+                resultSlot.SetItem(new ItemStack(result.item, result.amount));
                 inputSlot.UpdateUI();
                 resultSlot.UpdateUI();
             }

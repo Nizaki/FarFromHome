@@ -13,8 +13,7 @@ public class ItemSlot : MonoBehaviour
 
     private void Awake()
     {
-        item = new ItemStack(ItemDB.Instance.getItemByID("air"));
-        UpdateUI();
+        ResetSlot();
     }
 
     public void SetItem(ItemStack item)
@@ -28,5 +27,11 @@ public class ItemSlot : MonoBehaviour
     {
         image.sprite = item.item.Sprite;
         text.text = item.amount > 0 ? item.amount.ToString() : "";
+    }
+
+    public void ResetSlot()
+    {
+        item = new ItemStack(ItemDB.Instance.getItemByID("air"), 0);
+        UpdateUI();
     }
 }

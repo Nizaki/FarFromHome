@@ -30,6 +30,11 @@ public class Recipes : MonoBehaviour
         init = true;
     }
 
+    public bool Match(Item input, Item output)
+    {
+        return recipes.Any((recipe) => recipe.itemIn.item == input && recipe.itemOut.item == output);
+    }
+
     public bool match(Item ingredient)
     {
         return recipes.Any((recipe) => recipe.itemIn.item == ingredient);

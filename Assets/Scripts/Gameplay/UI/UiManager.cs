@@ -5,6 +5,8 @@ using UnityEngine;
 public class UiManager : MonoBehaviour
 {
     public InvPanel invPanel;
+    public FurnacePanel furnacePanel;
+    public InvCraftingPanel invCraftingPanel;
 
     // Start is called before the first frame update
     private void Start()
@@ -19,6 +21,14 @@ public class UiManager : MonoBehaviour
             invPanel.gameObject.SetActive(!invPanel.gameObject.activeSelf);
             invPanel.CreateInv();
             invPanel.UpdateInv();
+        }
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            furnacePanel.gameObject.SetActive(!furnacePanel.gameObject.activeSelf);
+        }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            invCraftingPanel.gameObject.SetActive(!invCraftingPanel.gameObject.activeSelf);
         }
     }
 }

@@ -58,7 +58,7 @@ public class Inventory
             if (itemList[index].amount <= 0)
             {
                 Debug.Log("remove item " + itemList[index].item.Name);
-                itemList[index] = new ItemStack(ItemDB.Instance.getItemByID("air"));
+                itemList[index] = new ItemStack(ItemDB.Instance.getItemByID("air"), 0);
                 return true;
             }
             return true;

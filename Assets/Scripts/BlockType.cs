@@ -1,6 +1,6 @@
 ﻿public enum BlockType
 {
-    SOLID,
-    OPAQUE,
-    FUNTIONAL
+  SOLID,
+  OPAQUE,
+  FUNTIONAL
 }

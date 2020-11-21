@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class CraftItems : MonoBehaviour
 {
-    public Image image;
-    public TextMeshProUGUI itemName;
+  public Image image;
+  public TextMeshProUGUI itemName;
 }

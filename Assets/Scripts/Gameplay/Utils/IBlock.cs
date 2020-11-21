@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public interface IBlock
+﻿public interface IBlock
 {
-    void OnClick();
+  void OnClick();
 }

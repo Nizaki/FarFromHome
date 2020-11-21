@@ -1,30 +1,28 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CraftingManager : MonoBehaviour
 {
-    public static CraftingManager Instance { get; private set; }
+  public static CraftingManager Instance { get; private set; }
 
-    public CraftDB InventoryCraftDB;
-    public CraftDB CraftingTableDB;
+  public CraftDB InventoryCraftDB;
+  public CraftDB CraftingTableDB;
 
-    private void Awake()
+  private void Awake()
+  {
+    if (Instance == null)
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else if (Instance != this)
-        {
-            Destroy(this);
-        }
-
-        Debug.Log(InventoryCraftDB);
+      Instance = this;
+    }
+    else if (Instance != this)
+    {
+      Destroy(this);
     }
 
-    public CraftDB getRecipe()
-    {
-        return InventoryCraftDB;
-    }
+    Debug.Log(InventoryCraftDB);
+  }
+
+  public CraftDB getRecipe()
+  {
+    return InventoryCraftDB;
+  }
 }

@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class InvSlot : MonoBehaviour
 {
-    public Image image;
-    public TextMeshProUGUI text;
+  public Image image;
+  public TextMeshProUGUI text;
 }

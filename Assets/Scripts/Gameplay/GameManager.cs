@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
 
   public void SpawnItemByID(Vector2 position, string id, int amount)
   {
-    var item = ItemDB.Instance.getItemByID(id);
+    var item = ItemDB.getItemByID(id);
     Debug.Log("spawn Item at : " + item);
     if (item != null)
     {

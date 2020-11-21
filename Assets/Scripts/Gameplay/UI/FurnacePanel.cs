@@ -24,11 +24,11 @@ public class FurnacePanel : MonoBehaviour
   public void Init()
   {
     Debug.Log("init Furnace");
-    air = ItemDB.Instance.getItemByID("air");
+    air = ItemDB.getItemByID("air");
     updateInventory();
     resultSlot.gameObject.AddComponent<Button>().onClick.AddListener(() =>
     {
-      if (resultSlot.item.item != ItemDB.Instance.getItemByID("air"))
+      if (resultSlot.item.item != ItemDB.getItemByID("air"))
       {
         GameManager.Instance.player.inventory.AddItem(resultSlot.item.item, resultSlot.item.amount);
         resultSlot.ResetSlot();
@@ -37,7 +37,7 @@ public class FurnacePanel : MonoBehaviour
     });
     inputSlot.gameObject.AddComponent<Button>().onClick.AddListener(() =>
     {
-      if (inputSlot.item.item != ItemDB.Instance.getItemByID("air"))
+      if (inputSlot.item.item != ItemDB.getItemByID("air"))
       {
         GameManager.Instance.player.inventory.AddItem(inputSlot.item.item, inputSlot.item.amount);
         inputSlot.ResetSlot();
@@ -62,7 +62,7 @@ public class FurnacePanel : MonoBehaviour
 
       button.onClick.AddListener(() =>
           {
-            if (inputSlot.item.item != ItemDB.Instance.getItemByID("air"))
+            if (inputSlot.item.item != ItemDB.getItemByID("air"))
             {
               GameManager.Instance.player.inventory.AddItem(inputSlot.item.item, inputSlot.item.amount);
             }
@@ -84,7 +84,7 @@ public class FurnacePanel : MonoBehaviour
     }
     if (haveItem)
     {
-      if (inputSlot.item.item == ItemDB.Instance.getItemByID("air"))
+      if (inputSlot.item.item == ItemDB.getItemByID("air"))
         return;
       var iSlot = inputSlot.item;
       var oSlot = resultSlot.item;

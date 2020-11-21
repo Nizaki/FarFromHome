@@ -5,8 +5,8 @@ using UnityEngine;
 public class ItemDB : MonoBehaviour
 {
   public static ItemDB Instance;
-  public List<Item> ItemList = new List<Item>();
-  public List<BlockBase> blockList = new List<BlockBase>();
+  public static List<Item> ItemList = new List<Item>();
+  public static List<BlockBase> blockList = new List<BlockBase>();
   // Start is called before the first frame update
 
   // Start is called before the first frame update
@@ -29,12 +29,12 @@ public class ItemDB : MonoBehaviour
     ItemList.Add(new Item("stone", "stone", itemType.block));
     ItemList.Add(new Item("dirt", "dirt", itemType.block));
     ItemList.Add(new Item("grass", "grass", itemType.block));
-    ItemList.Add(new Item("ore_aluminium", "ore_aluminium", itemType.block));
-    ItemList.Add(new Item("ore_coal", "ore_coal", itemType.block));
-    ItemList.Add(new Item("ore_copper", "ore_copper", itemType.block));
-    ItemList.Add(new Item("ore_gold", "ore_gold", itemType.block));
-    ItemList.Add(new Item("ore_iron", "ore_iron", itemType.block));
-    ItemList.Add(new Item("ore_titanium", "ore_titanium", itemType.block));
+    ItemList.Add(new Item("ore_aluminium", "aluminium ore", itemType.block));
+    ItemList.Add(new Item("ore_coal", "coal ore", itemType.block));
+    ItemList.Add(new Item("ore_copper", "copper ore", itemType.block));
+    ItemList.Add(new Item("ore_gold", "gold ore", itemType.block));
+    ItemList.Add(new Item("ore_iron", "iron ore", itemType.block));
+    ItemList.Add(new Item("ore_titanium", "titanium ore", itemType.block));
     ItemList.Add(new Item("sand", "sand", itemType.block));
     ItemList.Add(new MachineItem("furnace", "Furnace"));
     BuildBlock();
@@ -75,12 +75,12 @@ public class ItemDB : MonoBehaviour
   {
   }
 
-  public Item getItemByID(string id)
+  public static Item getItemByID(string id)
   {
     return ItemList.Where((t) => t.Id == id).FirstOrDefault();
   }
 
-  public Item GetItem(int index)
+  public static Item GetItem(int index)
   {
     return ItemList[index];
   }

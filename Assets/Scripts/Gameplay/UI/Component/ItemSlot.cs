@@ -29,7 +29,7 @@ public class ItemSlot : MonoBehaviour
 
   public void ResetSlot()
   {
-    item = new ItemStack(ItemDB.Instance.getItemByID("air"), 0);
+    item = new ItemStack(ItemDB.getItemByID("air"), 0);
     UpdateUI();
   }
 }

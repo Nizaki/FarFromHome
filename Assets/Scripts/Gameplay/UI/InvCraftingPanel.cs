@@ -17,7 +17,7 @@ public class InvCraftingPanel : MonoBehaviour
   {
     CraftingManager.Instance.InventoryCraftDB.recipes.ForEach((recipe) =>
     {
-      var resultItem = ItemDB.Instance.getItemByID(recipe.result);
+      var resultItem = ItemDB.getItemByID(recipe.result);
       var go = Instantiate(craftItemPrefab, container.transform);
       var comp = go.GetComponent<CraftItems>();
 
@@ -27,6 +27,7 @@ public class InvCraftingPanel : MonoBehaviour
           {
             craftInfo.SetItem(new ItemStack(resultItem));
             cRecipe = recipe;
+            craftInfo.ShowIngredient(recipe.ingredient);
           });
     });
   }
@@ -38,9 +39,9 @@ public class InvCraftingPanel : MonoBehaviour
     {
       cRecipe.ingredient.ForEach((ingredient) =>
       {
-        GameManager.Instance.RemoveItem(ItemDB.Instance.getItemByID(ingredient.id), ingredient.amount);
+        GameManager.Instance.RemoveItem(ItemDB.getItemByID(ingredient.id), ingredient.amount);
       });
-      GameManager.Instance.addItem(ItemDB.Instance.getItemByID(cRecipe.result), cRecipe.amount);
+      GameManager.Instance.addItem(ItemDB.getItemByID(cRecipe.result), cRecipe.amount);
     }
     else
       Debug.Log("No item");

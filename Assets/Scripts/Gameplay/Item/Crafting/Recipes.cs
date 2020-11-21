@@ -51,6 +51,6 @@ public class Recipes : MonoBehaviour
 
   private ItemStack getItem(string id, int amout = 1)
   {
-    return new ItemStack(ItemDB.Instance.getItemByID(id), amout);
+    return new ItemStack(ItemDB.getItemByID(id), amout);
   }
 }

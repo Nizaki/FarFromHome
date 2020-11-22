@@ -30,19 +30,15 @@ public class DItem : MonoBehaviour
     {
       GetComponent<Rigidbody2D>().gravityScale = 0;
       transform.position = Vector2.MoveTowards(transform.position, hit.transform.position, 4 * Time.deltaTime);
+      if (Vector2.Distance(transform.position, hit.transform.position) < 1)
+      {
+        hit.transform.GetComponent<Player>()?.AddItem(itemDate, amount);
+        DestroySelf();
+      }
     }
     else
     {
       GetComponent<Rigidbody2D>().gravityScale = 1;
-    }
-  }
-
-  private void OnCollisionEnter2D(Collision2D collision)
-  {
-    if (collision.gameObject.tag == "Player")
-    {
-      collision.gameObject.GetComponent<Player>().inventory.AddItem(itemDate, amount);
-      DestroySelf();
     }
   }
 }

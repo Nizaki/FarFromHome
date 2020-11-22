@@ -4,9 +4,6 @@ using UnityEngine;
 public class HotbarPanel : MonoBehaviour
 {
   [SerializeField]
-  private Inventory inventory;
-
-  [SerializeField]
   private GameObject ItemSlot;
 
   [SerializeField]
@@ -17,7 +14,6 @@ public class HotbarPanel : MonoBehaviour
   // Start is called before the first frame update
   private void Start()
   {
-    inventory = GameManager.Instance.player.inventory;
     slotList = new List<GameObject>();
     player.onHotbarSelect += selectHotbar;
     CreateHotbar();
@@ -34,12 +30,12 @@ public class HotbarPanel : MonoBehaviour
     {
       var obj = Instantiate(ItemSlot, this.transform).GetComponent<HotbarSlot>();
       slotList.Add(obj.gameObject);
-      if (i <= inventory.itemList.Count - 1)
+      if (i <= GameManager.Instance.player.inventory.Count - 1)
       {
-        if (inventory.itemList[i].item.type != itemType.air)
+        if (GameManager.Instance.player.inventory[i].item.type != itemType.air)
         {
-          obj.itemPic.sprite = inventory.itemList[i].item.Sprite;
-          obj.count.text = inventory.itemList[i].amount.ToString();
+          obj.itemPic.sprite = GameManager.Instance.player.inventory[i].item.Sprite;
+          obj.count.text = GameManager.Instance.player.inventory[i].amount.ToString();
         }
         else
         {
@@ -64,12 +60,12 @@ public class HotbarPanel : MonoBehaviour
     for (int i = 0; i < 9; i++)
     {
       var obj = slotList[i].GetComponent<HotbarSlot>();
-      if (i <= inventory.itemList.Count - 1)
+      if (i <= GameManager.Instance.player.inventory.Count - 1)
       {
-        if (inventory.itemList[i].item.type != itemType.air)
+        if (GameManager.Instance.player.inventory[i].item.type != itemType.air)
         {
-          obj.itemPic.sprite = inventory.itemList[i].item.Sprite;
-          obj.count.text = inventory.itemList[i].amount.ToString();
+          obj.itemPic.sprite = GameManager.Instance.player.inventory[i].item.Sprite;
+          obj.count.text = GameManager.Instance.player.inventory[i].amount.ToString();
         }
         else
         {

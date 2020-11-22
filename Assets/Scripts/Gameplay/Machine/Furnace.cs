@@ -2,8 +2,8 @@
 
 public class Furnace : Machine
 {
-  public override void OnUse()
+  public override void OnUse(Player player)
   {
-    Debug.Log("Furnace !!");
+    Debug.Log($"player {player.name} use Furnace !!");
   }
 }

@@ -38,10 +38,11 @@ public class GameManager : MonoBehaviour
 
   private void Start()
   {
+    ItemDB.init();
     if (generateMap)
     {
       terrain.Generate();
-      spawnPoint = terrain.PickSpawnPoint() / 2.0f;
+      spawnPoint = terrain.PickSpawnPoint();
       Debug.Log(spawnPoint); ;
       player.gameObject.transform.position = spawnPoint;
     }
@@ -54,33 +55,34 @@ public class GameManager : MonoBehaviour
     if (item != null)
     {
       //item.Count = amount;
-      SpawnItem(position, item);
+      SpawnItem(position, item, amount);
     }
     else
       Debug.LogError("Item not fond");
   }
 
-  public void SpawnItem(Vector2 position, Item item)
+  public void SpawnItem(Vector2 position, Item item, int amount = 1)
   {
     var go = Instantiate(dropItemPrefab);
     go.transform.position = position;
     var dropCom = go.GetComponent<DItem>();
     dropCom.itemDate = item;
+    dropCom.amount = amount;
     dropCom.itemRender.sprite = item.Sprite;
   }
 
   public void addItem(Item item, int amount = 1)
   {
-    player.inventory.AddItem(item, amount);
+    player.AddItem(item, amount);
   }
 
   public void RemoveItem(Item item, int amount = 1)
   {
-    player.inventory.RemoveItem(item, amount);
+    player.RemoveItem(item, amount);
   }
 
   public bool InvContain(string itemId, int amount = 1)
   {
-    return player.inventory.itemList.Any((itemstack) => itemstack.item.Id == itemId && itemstack.amount >= amount);
+    return player.inventory.Any((itemstack) => itemstack.item.Id == itemId && itemstack.amount >= amount);
   }
 }

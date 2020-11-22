@@ -25,6 +25,7 @@ public class ItemSlot : MonoBehaviour
   {
     image.sprite = item.item.Sprite;
     text.text = item.amount > 0 ? item.amount.ToString() : "";
+    Debug.Log("Item slot update");
   }
 
   public void ResetSlot()

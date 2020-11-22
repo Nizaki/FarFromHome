@@ -18,7 +18,7 @@ public class InvPanel : MonoBehaviour
   {
     if (!isInit)
     {
-      GameManager.Instance.player.inventory.itemList.ForEach((item) =>
+      GameManager.Instance.player.inventory.ForEach((item) =>
       {
         var go = Instantiate(invPrefab);
         go.transform.SetParent(invContainer.transform);
@@ -34,7 +34,7 @@ public class InvPanel : MonoBehaviour
   public void UpdateInv()
   {
     int i = 0;
-    GameManager.Instance.player.inventory.itemList.ForEach((item) =>
+    GameManager.Instance.player.inventory.ForEach((item) =>
     {
       var go = gameObjects[i];
       go.transform.SetParent(invContainer.transform);

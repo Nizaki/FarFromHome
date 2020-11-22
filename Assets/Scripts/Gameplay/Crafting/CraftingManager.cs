@@ -17,8 +17,6 @@ public class CraftingManager : MonoBehaviour
     {
       Destroy(this);
     }
-
-    Debug.Log(InventoryCraftDB);
   }
 
   public CraftDB getRecipe()

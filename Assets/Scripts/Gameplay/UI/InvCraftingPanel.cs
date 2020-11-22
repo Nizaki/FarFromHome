@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Gameplay.Item;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class InvCraftingPanel : MonoBehaviour
@@ -17,7 +18,7 @@ public class InvCraftingPanel : MonoBehaviour
   {
     CraftingManager.Instance.InventoryCraftDB.recipes.ForEach((recipe) =>
     {
-      var resultItem = ItemDB.getItemByID(recipe.result);
+      var resultItem = Items.getItemByID(recipe.result);
       var go = Instantiate(craftItemPrefab, container.transform);
       var comp = go.GetComponent<CraftItems>();
 
@@ -39,9 +40,9 @@ public class InvCraftingPanel : MonoBehaviour
     {
       cRecipe.ingredient.ForEach((ingredient) =>
       {
-        GameManager.Instance.RemoveItem(ItemDB.getItemByID(ingredient.id), ingredient.amount);
+        GameManager.Instance.RemoveItem(Items.getItemByID(ingredient.id), ingredient.amount);
       });
-      GameManager.Instance.addItem(ItemDB.getItemByID(cRecipe.result), cRecipe.amount);
+      GameManager.Instance.addItem(Items.getItemByID(cRecipe.result), cRecipe.amount);
     }
     else
       Debug.Log("No item");

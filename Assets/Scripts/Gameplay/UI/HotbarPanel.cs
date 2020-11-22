@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Assets.Scripts.Gameplay.Item;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class HotbarPanel : MonoBehaviour

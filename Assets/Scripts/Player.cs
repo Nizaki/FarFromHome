@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Assets.Scripts.Gameplay.Item;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
@@ -26,6 +27,7 @@ public class Player : PhysicsObject
   public float maxSpeed = 7;
   public float jumpTakeOffSpeed = 7;
 
+  public float minePower = 1f;
   [Header("Hotbar")]
   public List<ItemStack> inventory = new List<ItemStack>(36);
 
@@ -35,7 +37,6 @@ public class Player : PhysicsObject
   private BlockBase hoverBlock;
   public UnityAction<BlockBase> onBlockHover;
   public UnityAction<int> onHotbarSelect;
-  public BlockBase selectBlock;
   public Item selectedItem;
 
   [SerializeField]
@@ -47,7 +48,7 @@ public class Player : PhysicsObject
     inventory = new List<ItemStack>(36);
     for (int i = 0; i < 36; i++)
     {
-      inventory.Add(new ItemStack(ItemDB.getItemByID("air"), 0));
+      inventory.Add(new ItemStack(Items.AIR, 0));
     }
     Debug.Log("player inventort init.");
     hp = maxHp;
@@ -56,11 +57,9 @@ public class Player : PhysicsObject
     water = maxWater;
     SelectHotbarSlot(0);
     GameObject.Find("Inventory")?.GetComponent<InvPanel>().CreateInv();
-    AddItem(ItemDB.FURNACE);
-    AddItem(ItemDB.getItemByID("sapling"), 99);
+    AddItem(Items.FURNACE);
+    AddItem(Items.getItemByID("sapling"), 99);
     base.Start();
-    //GameManager.Instance.addItem(ItemDB.getItemByID("furnace"));
-    //GameManager.Instance.addItem(ItemDB.getItemByID("stone"), 99);
   }
 
   private void LateUpdate()
@@ -75,8 +74,6 @@ public class Player : PhysicsObject
       SelectHotbarSlot(currestHotbarIndex + 1);
     }
     SelectHotbarSlot(currestHotbarIndex);
-    if (selectedItem != null)
-      selectBlock = ItemDB.Instance.GetBlockById(selectedItem.Id);
     if (hunger <= 0)
     {
       hunger = 0;
@@ -147,11 +144,12 @@ public class Player : PhysicsObject
         }
       }
 
-      if (selectBlock != null && selectedItem.type == itemType.block)
+      if (selectedItem.type == itemType.block)
       {
         if (CheckPlaceAble(position))
         {
-          GameManager.Instance.mainTile.SetTile(position, selectBlock);
+          if (selectedItem is BlockItem tem)
+            tem.OnUse(this,position);
           RemoveItem(selectedItem);
         }
         else
@@ -159,10 +157,8 @@ public class Player : PhysicsObject
       }
       else if (selectedItem.type == itemType.machine)
       {
-        MachineItem tem = selectedItem as MachineItem;
-        Debug.Log(tem);
-        if (tem != null)
-          tem.OnUse(this, worldPoint);
+        if (selectedItem is MachineItem tem)
+          tem.OnUse(this, worldPoint.ToInt());
       }
     }
     if (Input.GetMouseButton(0))
@@ -178,7 +174,7 @@ public class Player : PhysicsObject
       }
       if (hoverBlock != GameManager.Instance.air)
       {
-        progress += Time.deltaTime;
+        progress += Time.deltaTime * minePower;
         if (progress > hoverBlock.hardness)
         {
           switch (hoverBlock.blockType)
@@ -191,6 +187,7 @@ public class Player : PhysicsObject
             default:
               break;
           }
+          Debug.Log(hoverBlock.dropItemId);
           GameManager.Instance.SpawnItemByID(worldPoint, hoverBlock.dropItemId, 1);
           progress = 0;
         }
@@ -219,14 +216,19 @@ public class Player : PhysicsObject
     if (inventory.ElementAt(slot) != null)
     {
       selectedItem = inventory.ElementAt(slot).item;
-      //selectBlock = selectedItem.block;
     }
     else
     {
       selectedItem = null;
-      selectBlock = null;
     }
     onHotbarSelect?.Invoke(slot);
+  }
+
+  public void RestroHunger(float value)
+  {
+    hunger += value;
+    if (hunger > maxHunger)
+      hunger = maxHunger;
   }
 
   private void BlockHover(BlockBase block)
@@ -252,11 +254,11 @@ public class Player : PhysicsObject
     }
     else
     {
-      int index = inventory.IndexOf(inventory.Where(p => p.item == ItemDB.getItemByID("air")).FirstOrDefault());
+      int index = inventory.IndexOf(inventory.Where(p => p.item == Items.getItemByID("air")).FirstOrDefault());
       if (index > -1)
       {
         Debug.Log($"add {amount} {item.Id} to inventory");
-        inventory[index] = new ItemStack(ItemDB.getItemByID(item.Id), amount);
+        inventory[index] = new ItemStack(Items.getItemByID(item.Id), amount);
         return true;
       }
       else
@@ -279,7 +281,7 @@ public class Player : PhysicsObject
       if (inventory[index].amount <= 0)
       {
         Debug.Log($"remove {amount} {inventory[index].item.Name}");
-        inventory[index] = new ItemStack(ItemDB.getItemByID("air"), 0);
+        inventory[index] = new ItemStack(Items.getItemByID("air"), 0);
         return true;
       }
       return true;

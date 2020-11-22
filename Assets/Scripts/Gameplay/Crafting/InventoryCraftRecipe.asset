@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: InventoryCraftRecipe
   m_EditorClassIdentifier: 
   recipes:
-  - result: ore_iron
+  - result: furnace
     amount: 1
     ingredient:
     - id: stone
-      amount: 1
-  - result: ore_gold
+      amount: 8
+  - result: log
     amount: 1
     ingredient:
-    - id: ore_iron
-      amount: 1
+    - id: wood_plank
+      amount: 4

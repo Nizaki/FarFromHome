@@ -1,4 +1,6 @@
-﻿using CommandTerminal;
+﻿using Assets.Scripts.Gameplay.Block;
+using Assets.Scripts.Gameplay.Item;
+using CommandTerminal;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -31,6 +33,13 @@ public class Terrain : MonoBehaviour
     GenerateOre();
     GenerateBackground();
     tilemap.RefreshAllTiles();
+    for (int i = 0; i < size_x / 4; i++)
+    {
+      var gameObject = (Items.SAPLING as MachineItem).prefab;
+      var instan = Instantiate(gameObject, GameManager.Instance.machineHolder.transform);
+      Vector2 point = PickSpawnPoint();
+      instan.transform.position = new Vector2(point.x, point.y - 0.5f);
+    }
   }
 
   private void GenerateBackground()
@@ -41,9 +50,8 @@ public class Terrain : MonoBehaviour
       {
         perlinValue = Mathf.PerlinNoise(seed / (seed.ToString().Length * 10f) + x / 10.0f, seed / (seed.ToString().Length * 10f) + y / 10.0f);
         bool isblock = perlinValue > 0.02f;
-        var block = ItemDB.Instance.GetBlockById("stone");
         if (isblock)
-          backTile.SetTile(new Vector3Int(x, y, 0), block);
+          backTile.SetTile(new Vector3Int(x, y, 0), Blocks.STONE);
       }
     }
     for (int y = size_y; y < size_y + 5; y++)
@@ -53,7 +61,7 @@ public class Terrain : MonoBehaviour
         perlinValue = Mathf.PerlinNoise(seed / (seed.ToString().Length * 10f) + x / 10.0f, seed / (seed.ToString().Length * 10f) + y / 10.0f);
         bool isblock = perlinValue > 0.02f;
         if (isblock)
-          backTile.SetTile(new Vector3Int(x, y, 0), ItemDB.Instance.GetBlockById("dirt"));
+          backTile.SetTile(new Vector3Int(x, y, 0), Blocks.DIRT);
       }
     }
   }
@@ -67,7 +75,7 @@ public class Terrain : MonoBehaviour
         perlinValue = Mathf.PerlinNoise(seed / (seed.ToString().Length * 10f) + x / 10.0f, seed / (seed.ToString().Length * 10f) + y / 10.0f);
         bool isblock = perlinValue > 0.3f;
         if (isblock)
-          tilemap.SetTile(new Vector3Int(x, y, 0), ItemDB.Instance.GetBlockById("stone"));
+          tilemap.SetTile(new Vector3Int(x, y, 0), Blocks.STONE);
       }
     }
   }
@@ -83,9 +91,9 @@ public class Terrain : MonoBehaviour
         bool isblock = perlinValue > 0.3f;
         if (isblock)
           if (y > size_y + 3)
-            tilemap.SetTile(new Vector3Int(x, y, 0), ItemDB.Instance.GetBlockById("grass"));
+            tilemap.SetTile(new Vector3Int(x, y, 0), Blocks.GRASS);
           else
-            tilemap.SetTile(new Vector3Int(x, y, 0), ItemDB.Instance.GetBlockById("dirt"));
+            tilemap.SetTile(new Vector3Int(x, y, 0), Blocks.DIRT);
       }
     }
   }
@@ -103,7 +111,7 @@ public class Terrain : MonoBehaviour
         bool isIron = Mathf.PerlinNoise(ironSeed / (ironSeed.ToString().Length * 10f) + x / 10.0f, ironSeed / (ironSeed.ToString().Length * 10f) + y / 10.0f) < 0.15f;
         if (isIron)
         {
-          tilemap.SetTile(new Vector3Int(x, y, 0), ItemDB.Instance.GetBlockById("ore_iron"));
+          tilemap.SetTile(new Vector3Int(x, y, 0), Blocks.ORE_ALUMINIUM);
           ironOre += 1;
         }
         if (y < 150)
@@ -111,7 +119,7 @@ public class Terrain : MonoBehaviour
           bool isGold = Mathf.PerlinNoise(goldSeed / (goldSeed.ToString().Length * 10f) + x / 10.0f, goldSeed / (goldSeed.ToString().Length * 10f) + y / 10.0f) < 0.13f;
           if (isGold)
           {
-            tilemap.SetTile(new Vector3Int(x, y, 0), ItemDB.Instance.GetBlockById("ore_gold"));
+            tilemap.SetTile(new Vector3Int(x, y, 0), Blocks.SAND);
             goldOre += 1;
           }
         }
@@ -129,7 +137,7 @@ public class Terrain : MonoBehaviour
       {
         if (tilemap.GetTile(new Vector3Int(x, y - 1, 0)) != null)
         {
-          return new Vector2(x, y + 2f);
+          return new Vector2(x, y + 1f);
         }
       }
     }

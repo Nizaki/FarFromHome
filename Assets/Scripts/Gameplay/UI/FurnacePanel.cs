@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Gameplay.Item;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class FurnacePanel : MonoBehaviour
@@ -24,11 +25,11 @@ public class FurnacePanel : MonoBehaviour
   public void Init()
   {
     Debug.Log("init Furnace");
-    air = ItemDB.getItemByID("air");
+    air = Items.getItemByID("air");
     updateInventory();
     resultSlot.gameObject.AddComponent<Button>().onClick.AddListener(() =>
     {
-      if (resultSlot.item.item != ItemDB.getItemByID("air"))
+      if (resultSlot.item.item != Items.getItemByID("air"))
       {
         GameManager.Instance.player.AddItem(resultSlot.item.item, resultSlot.item.amount);
         resultSlot.ResetSlot();
@@ -37,7 +38,7 @@ public class FurnacePanel : MonoBehaviour
     });
     inputSlot.gameObject.AddComponent<Button>().onClick.AddListener(() =>
     {
-      if (inputSlot.item.item != ItemDB.getItemByID("air"))
+      if (inputSlot.item.item != Items.getItemByID("air"))
       {
         GameManager.Instance.player.AddItem(inputSlot.item.item, inputSlot.item.amount);
         inputSlot.ResetSlot();
@@ -62,7 +63,7 @@ public class FurnacePanel : MonoBehaviour
 
       button.onClick.AddListener(() =>
           {
-            if (inputSlot.item.item != ItemDB.getItemByID("air"))
+            if (inputSlot.item.item != Items.getItemByID("air"))
             {
               GameManager.Instance.player.AddItem(inputSlot.item.item, inputSlot.item.amount);
             }
@@ -84,7 +85,7 @@ public class FurnacePanel : MonoBehaviour
     }
     if (haveItem)
     {
-      if (inputSlot.item.item == ItemDB.getItemByID("air"))
+      if (inputSlot.item.item == Items.getItemByID("air"))
         return;
       var iSlot = inputSlot.item;
       var oSlot = resultSlot.item;

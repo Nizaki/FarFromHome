@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Assets.Scripts.Gameplay.Item;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -51,6 +52,6 @@ public class Recipes : MonoBehaviour
 
   private ItemStack getItem(string id, int amout = 1)
   {
-    return new ItemStack(ItemDB.getItemByID(id), amout);
+    return new ItemStack(Items.getItemByID(id), amout);
   }
 }

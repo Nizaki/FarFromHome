@@ -45,8 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3a4db11089e03645975fd7c8947b139, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dropItemId: furnace
-  amount: 3
+  dropItemId: wood_plank
+  amount: 99
+  breakOnNoGround: 1
 --- !u!61 &2135882482910644079
 BoxCollider2D:
   m_ObjectHideFlags: 0

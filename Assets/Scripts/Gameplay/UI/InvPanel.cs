@@ -39,8 +39,6 @@ public class InvPanel : MonoBehaviour
       var go = gameObjects[i];
       go.transform.SetParent(invContainer.transform);
       var slot = go.GetComponent<InvSlot>();
-      Debug.Log(item.item.Sprite.name);
-      Debug.Log(item.amount);
       slot.image.sprite = item.item.Sprite.name != null ? item.item.Sprite : null;
       slot.text.text = item.amount.ToString();
       gameObjects.Add(go);

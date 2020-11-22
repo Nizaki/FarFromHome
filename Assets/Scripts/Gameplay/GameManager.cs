@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using Assets.Scripts.Gameplay.Item;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -38,7 +39,6 @@ public class GameManager : MonoBehaviour
 
   private void Start()
   {
-    ItemDB.init();
     if (generateMap)
     {
       terrain.Generate();
@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
 
   public void SpawnItemByID(Vector2 position, string id, int amount)
   {
-    var item = ItemDB.getItemByID(id);
+    var item = Items.getItemByID(id);
     Debug.Log("spawn Item at : " + item);
     if (item != null)
     {

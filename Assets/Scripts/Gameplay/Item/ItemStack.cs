@@ -1,4 +1,6 @@
-﻿[System.Serializable]
+﻿using Assets.Scripts.Gameplay.Item;
+
+[System.Serializable]
 public class ItemStack
 {
   public Item item;

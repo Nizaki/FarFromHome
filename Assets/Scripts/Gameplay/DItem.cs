@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Gameplay.Item;
+using UnityEngine;
 
 public class DItem : MonoBehaviour
 {

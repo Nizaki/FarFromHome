@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Assets.Scripts.Gameplay.Item;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -27,7 +28,7 @@ public class CraftInfoPanel : MonoBehaviour
   {
     for (int i = 0; i < item.Count; i++)
     {
-      slotList[i].GetComponent<ItemSlot>().SetItem(new ItemStack(ItemDB.getItemByID(item[i].id), item.Count));
+      slotList[i].GetComponent<ItemSlot>().SetItem(new ItemStack(Items.getItemByID(item[i].id), item.Count));
     }
   }
 }

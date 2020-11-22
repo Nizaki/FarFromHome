@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using Assets.Scripts.Gameplay.Item;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,12 +26,11 @@ public class ItemSlot : MonoBehaviour
   {
     image.sprite = item.item.Sprite;
     text.text = item.amount > 0 ? item.amount.ToString() : "";
-    Debug.Log("Item slot update");
   }
 
   public void ResetSlot()
   {
-    item = new ItemStack(ItemDB.getItemByID("air"), 0);
+    item = new ItemStack(Items.getItemByID("air"), 0);
     UpdateUI();
   }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.Gameplay.Item;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -16,7 +17,7 @@ public class Storage : Machine
     container = new List<ItemStack>(9);
     for (int i = 0; i <= 9; i++)
     {
-      container.Add(new ItemStack(ItemDB.AIR, 99));
+      container.Add(new ItemStack(Items.AIR, 0));
     }
     Debug.Log(container.Count);
   }
@@ -37,11 +38,11 @@ public class Storage : Machine
     }
     else
     {
-      int index = container.IndexOf(container.Where(p => p.item == ItemDB.AIR).FirstOrDefault());
+      int index = container.IndexOf(container.Where(p => p.item == Items.AIR).FirstOrDefault());
       if (index > -1)
       {
         Debug.Log($"add {amount} {item.Id} to inventory");
-        container[index] = new ItemStack(ItemDB.getItemByID(item.Id), amount);
+        container[index] = new ItemStack(Items.getItemByID(item.Id), amount);
         return true;
       }
       else
@@ -63,7 +64,7 @@ public class Storage : Machine
       if (container[index].amount <= 0)
       {
         Debug.Log($"set item to AIR");
-        container[index] = new ItemStack(ItemDB.getItemByID("air"), 0);
+        container[index] = new ItemStack(Items.AIR, 0);
         return true;
       }
       return true;

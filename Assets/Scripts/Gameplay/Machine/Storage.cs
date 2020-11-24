@@ -13,19 +13,19 @@ public class Storage : Machine
 
   public override void Awake()
   {
+    
     base.Awake();
     container = new List<ItemStack>(9);
     for (int i = 0; i <= 9; i++)
     {
       container.Add(new ItemStack(Items.AIR, 0));
     }
-    Debug.Log(container.Count);
   }
 
   public override void OnUse(Player player)
   {
     Debug.Log("use");
-    panel.OpenPanel(player, this);
+    UiManager.Instance.storageBoxPanel.OpenPanel(player, this);
   }
 
   public bool AddItem(Item item, int amount = 1)

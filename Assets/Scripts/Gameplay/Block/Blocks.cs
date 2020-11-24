@@ -7,13 +7,20 @@ namespace Assets.Scripts.Gameplay.Block
   public static class Blocks
   {
     public static List<BlockBase> BlockList = new List<BlockBase>();
-    public static BlockBase STONE = NewBlock("stone", "Stone",1f);
-    public static BlockBase DIRT = NewBlock("dirt", "dirt");
-    public static BlockBase GRASS = NewBlock("grass", "Grass");
-    public static BlockBase ORE_ALUMINIUM = NewBlock("ore_aluminium", "aluminium",2f);
-    public static BlockBase SAND = NewBlock("sand", "sand");
+    public static BlockBase STONE = AddBlock("stone", "Stone", 1f);
+    public static BlockBase DIRT = AddBlock("dirt", "dirt");
+    public static BlockBase GRASS = AddBlock("grass", "Grass", 0f, "dirt");
+    public static BlockBase SAND = AddBlock("sand", "sand");
+    public static BlockBase LOG = AddBlock("log", "Log");
+    public static BlockBase WOOD_PLANK = AddBlock("wood_plank", "Wooden plank");
+    public static BlockBase ORE_ALUMINIUM = AddBlock("ore_aluminium", "aluminium", 2f, "chunk_aluminium");
+    public static BlockBase ORE_COAL = AddBlock("ore_coal", "aluminium", 2f, "coal");
+    public static BlockBase ORE_COPPER = AddBlock("ore_copper", "aluminium", 2f, "chunk_copper");
+    public static BlockBase ORE_GOLD = AddBlock("ore_gold", "aluminium", 2f, "chunk_gold");
+    public static BlockBase ORE_IRON = AddBlock("ore_iron", "aluminium", 2f, "chunk_iron");
+    public static BlockBase ORE_TITANIUM = AddBlock("ore_titanium", "aluminium", 2f, "chunk_titanium");
 
-    private static BlockBase NewBlock(string id, string name,float hardness = 0f, string dropItem = "")
+    private static BlockBase AddBlock(string id, string name, float hardness = 0f, string dropItem = "")
     {
       BlockBase block = ScriptableObject.CreateInstance<BlockBase>();
       block.id = id.ToLower();

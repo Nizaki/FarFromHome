@@ -24,9 +24,13 @@ public class MachineItem : Item
     pos.x = Mathf.Floor(position.x) + .5f;
     pos.y = Mathf.Floor(position.y) + .5f;
     if (GameManager.Instance.mainTile.GetTile(position) != null ||
-      GameManager.Instance.mainTile.GetTile(new Vector3Int(position.x,position.y-1,0)) == null)
+      GameManager.Instance.mainTile.GetTile(new Vector3Int(position.x, position.y - 1, 0)) == null)
       return false;
-
+    if (prefab == null)
+    {
+      Debug.LogError($"Machine {Id} not found.");
+      return false;
+    }
     var temp = GameObject.Instantiate(prefab);
     temp.transform.SetParent(GameManager.Instance.machineHolder.transform);
     temp.transform.position = pos;

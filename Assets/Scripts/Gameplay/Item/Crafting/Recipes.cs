@@ -27,6 +27,11 @@ public class Recipes : MonoBehaviour
   private void Init()
   {
     recipes.Add(new Recipe(getItem("stone"), getItem("furnace")));
+    recipes.Add(new Recipe(ItemS(Items.CHUNK_ALUMINIUM, 1), ItemS(Items.INGOT_ALUMINIUM, 1)));
+    recipes.Add(new Recipe(ItemS(Items.CHUNK_COPPER, 1), ItemS(Items.INGOT_COPPER, 1)));
+    recipes.Add(new Recipe(ItemS(Items.CHUNK_GOLD, 1), ItemS(Items.INGOT_GOLD, 1)));
+    recipes.Add(new Recipe(ItemS(Items.CHUNK_IRON, 1), ItemS(Items.INGOT_IRON, 1)));
+    recipes.Add(new Recipe(ItemS(Items.CHUNK_TITANIUM, 1), ItemS(Items.INGOT_TITANIUM, 1)));
     init = true;
   }
 
@@ -48,6 +53,11 @@ public class Recipes : MonoBehaviour
   public ItemStack Find(Item ingredient)
   {
     return recipes.Find((item) => item.itemIn.item == ingredient).itemOut;
+  }
+
+  private ItemStack ItemS(Item item, int amount)
+  {
+    return new ItemStack(item, amount);
   }
 
   private ItemStack getItem(string id, int amout = 1)

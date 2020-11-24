@@ -18,8 +18,18 @@ MonoBehaviour:
     ingredient:
     - id: stone
       amount: 8
-  - result: log
-    amount: 1
+  - result: wood_plank
+    amount: 4
+    ingredient:
+    - id: log
+      amount: 1
+  - result: chest
+    amount: 4
     ingredient:
     - id: wood_plank
+      amount: 4
+  - result: crafting_table
+    amount: 4
+    ingredient:
+    - id: log
       amount: 4

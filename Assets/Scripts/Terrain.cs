@@ -30,7 +30,12 @@ public class Terrain : MonoBehaviour
   {
     GenerateCave();
     GenerateSurface();
-    GenerateOre();
+    GenerateOre(Blocks.ORE_IRON);
+    GenerateOre(Blocks.ORE_GOLD);
+    GenerateOre(Blocks.ORE_COPPER);
+    GenerateOre(Blocks.ORE_COAL);
+    GenerateOre(Blocks.ORE_ALUMINIUM);
+    GenerateOre(Blocks.ORE_TITANIUM);
     GenerateBackground();
     tilemap.RefreshAllTiles();
     for (int i = 0; i < size_x / 4; i++)
@@ -98,34 +103,29 @@ public class Terrain : MonoBehaviour
     }
   }
 
-  private void GenerateOre()
+  private void GenerateOre(BlockBase block, float rate = 0.15f, int level = 0)
   {
-    int goldOre = 0;
-    int ironOre = 0;
-    float ironSeed = seed * 0.35f * UnityEngine.Random.Range(0.0f, seed);
-    float goldSeed = seed * 0.15f * UnityEngine.Random.Range(0.0f, seed);
-    for (int y = 0; y < size_y; y++)
+    int count = 0;
+    float oreSeed = seed * 0.35f * Random.Range(0.0f, seed);
+    int size = 0;
+    if (level == 0)
+      size = size_y;
+    else
+      size = level;
+    for (int y = 0; y < size; y++)
     {
       for (int x = 0; x < size_x; x++)
       {
-        bool isIron = Mathf.PerlinNoise(ironSeed / (ironSeed.ToString().Length * 10f) + x / 10.0f, ironSeed / (ironSeed.ToString().Length * 10f) + y / 10.0f) < 0.15f;
-        if (isIron)
+        bool isOre = Mathf.PerlinNoise(oreSeed / (oreSeed.ToString().Length * 10f) + x /
+          10.0f, oreSeed / (oreSeed.ToString().Length * 10f) + y / 10.0f) < rate;
+        if (isOre)
         {
-          tilemap.SetTile(new Vector3Int(x, y, 0), Blocks.ORE_ALUMINIUM);
-          ironOre += 1;
-        }
-        if (y < 150)
-        {
-          bool isGold = Mathf.PerlinNoise(goldSeed / (goldSeed.ToString().Length * 10f) + x / 10.0f, goldSeed / (goldSeed.ToString().Length * 10f) + y / 10.0f) < 0.13f;
-          if (isGold)
-          {
-            tilemap.SetTile(new Vector3Int(x, y, 0), Blocks.SAND);
-            goldOre += 1;
-          }
+          tilemap.SetTile(new Vector3Int(x, y, 0), block);
+          count++;
         }
       }
     }
-    Debug.Log($"Generated iron: {ironOre} gold: {goldOre} total: {ironOre + goldOre}");
+    Debug.Log($"Generated {block.id} : {count}");
   }
 
   public Vector2 PickSpawnPoint()

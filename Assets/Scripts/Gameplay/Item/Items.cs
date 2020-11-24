@@ -12,7 +12,7 @@ namespace Assets.Scripts.Gameplay.Item
 
     //common item
     public static Item RICE = AddItem(new Item("rice", "Rice"));
-
+    public static Item COAL = AddItem(new Item("coal", "Coal"));
     //block
     public static Item STONE = AddItem(new BlockItem("stone", "stone"));
     public static Item DIRT = AddItem(new BlockItem("dirt", "dirt"));
@@ -33,7 +33,7 @@ namespace Assets.Scripts.Gameplay.Item
     public static Item CHUNK_GOLD = AddItem(new Item("chunk_gold", "Gold Chunk"));
     public static Item CHUNK_IRON = AddItem(new Item("chunk_iron", "Iron Chunk"));
     public static Item CHUNK_TITANIUM = AddItem(new Item("chunk_titanium", "Titanium Chunk"));
-    //Ingor
+    //Ingot
     public static Item INGOT_ALUMINIUM = AddItem(new Item("ingot_aluminium", "Aluminium Ingot"));
     public static Item INGOT_COPPER = AddItem(new Item("ingot_copper", "Copper Ingot"));
     public static Item INGOT_GOLD = AddItem(new Item("ingot_gold", "Gold Ingot"));
@@ -42,6 +42,8 @@ namespace Assets.Scripts.Gameplay.Item
     //function
     public static Item FURNACE = AddItem(new MachineItem("furnace", "Furnace"));
     public static Item SAPLING = AddItem(new MachineItem("sapling", "Sapling"));
+    public static Item CHEST = AddItem(new MachineItem("chest", "Chest"));
+    public static Item CRAFT_TABLE = AddItem(new MachineItem("crafting_table", "Crafting Table"));
     //Food
     public static Item POTATO = AddItem(new FoodItem("potato", "Potato", 1.5f));
     public static Item CARROT = AddItem(new FoodItem("carrot", "Carrot", 1.5f));

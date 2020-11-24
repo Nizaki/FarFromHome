@@ -14,10 +14,6 @@ public class StorageBoxPanel : MonoBehaviour
   [SerializeField]
   private GameObject itemSlotPrefab;
 
-  public delegate void UiEventHandler();
-
-  public event UiEventHandler UpdateUI;
-
   public void OpenPanel(Player player, Storage storage)
   {
     foreach (Transform child in storagePanel.transform)

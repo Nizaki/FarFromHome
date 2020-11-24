@@ -14,7 +14,9 @@ public class BlockItem : Item
 
   public override void OnUse(Player player, Vector3Int position)
   {
-    Debug.Log("use block");
-    GameManager.Instance.mainTile.SetTile(position, Block);
+    if (Block != null)
+      GameManager.Instance.mainTile.SetTile(position, Block);
+    else
+      Debug.LogError($"block {Id} not foud");
   }
 }

@@ -41,7 +41,7 @@ public class Player : PhysicsObject
 
   [SerializeField]
   private float progress = 0;
-
+  public bool canControl = true;
   // Start is called before the first frame update
   protected override void Start()
   {
@@ -55,25 +55,34 @@ public class Player : PhysicsObject
     hunger = maxHunger;
     oxygen = maxOxygen;
     water = maxWater;
-    SelectHotbarSlot(0);
     GameObject.Find("Inventory")?.GetComponent<InvPanel>().CreateInv();
     AddItem(Items.FURNACE);
     AddItem(Items.getItemByID("sapling"), 99);
+    SelectHotbarSlot(0);
     base.Start();
+  }
+
+  protected override void Update()
+  {
+    targetVelocity = Vector2.zero;
+    if (canControl)
+      ComputeVelocity();
   }
 
   private void LateUpdate()
   {
-    Interact();
-    if (Input.GetAxis("Mouse ScrollWheel") > 0)
+    if (canControl)
     {
-      SelectHotbarSlot(currestHotbarIndex - 1);
+      Interact();
+      if (Input.GetAxis("Mouse ScrollWheel") > 0)
+      {
+        SelectHotbarSlot(currestHotbarIndex - 1);
+      }
+      else if (Input.GetAxis("Mouse ScrollWheel") < 0)
+      {
+        SelectHotbarSlot(currestHotbarIndex + 1);
+      }
     }
-    else if (Input.GetAxis("Mouse ScrollWheel") < 0)
-    {
-      SelectHotbarSlot(currestHotbarIndex + 1);
-    }
-    SelectHotbarSlot(currestHotbarIndex);
     if (hunger <= 0)
     {
       hunger = 0;
@@ -149,7 +158,7 @@ public class Player : PhysicsObject
         if (CheckPlaceAble(position))
         {
           if (selectedItem is BlockItem tem)
-            tem.OnUse(this,position);
+            tem.OnUse(this, position);
           RemoveItem(selectedItem);
         }
         else
@@ -231,6 +240,11 @@ public class Player : PhysicsObject
       hunger = maxHunger;
   }
 
+  public void SetSpeed(float speed)
+  {
+    maxSpeed = speed;
+  }
+
   private void BlockHover(BlockBase block)
   {
     hoverBlock = block;
@@ -242,6 +256,15 @@ public class Player : PhysicsObject
     if (GameManager.Instance.mainTile.GetTile<BlockBase>(position) != null)
       return false;
     return true;
+  }
+
+  public void AddItemByID(string id, int amount = 1)
+  {
+    var item = Items.getItemByID(id);
+    if (item != null)
+      AddItem(Items.getItemByID(id), amount);
+    else
+      Debug.LogError($"Item {id} not found");
   }
 
   public bool AddItem(Item item, int amount = 1)

@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3a4db11089e03645975fd7c8947b139, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dropItemId: wood_plank
+  dropItemId: log
   amount: 99
   breakOnNoGround: 1
 --- !u!61 &2135882482910644079
@@ -144,7 +144,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: cfc68bcd6484ae444bf5ab13e940a80e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0973c3d72c9b4aa44b9a28e40cc64aac, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

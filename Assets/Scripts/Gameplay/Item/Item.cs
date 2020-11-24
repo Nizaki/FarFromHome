@@ -47,8 +47,9 @@ namespace Assets.Scripts.Gameplay.Item
       var temp = Resources.Load<Sprite>(id);
       if (temp != null)
         return temp;
-      else
-        return Resources.Load<Sprite>("Item/null");
+      else {
+        Debug.LogError($"item {id} sprite not founded.");
+        return Resources.Load<Sprite>("Item/null"); }
     }
 
     public virtual void OnUse(Player player, Vector3Int position)

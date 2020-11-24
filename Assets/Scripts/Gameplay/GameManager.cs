@@ -81,6 +81,16 @@ public class GameManager : MonoBehaviour
     player.RemoveItem(item, amount);
   }
 
+  public void DisableControl()
+  {
+    player.canControl = false;
+  }
+
+  public void EnableControl()
+  {
+    player.canControl = true;
+  }
+
   public bool InvContain(string itemId, int amount = 1)
   {
     return player.inventory.Any((itemstack) => itemstack.item.Id == itemId && itemstack.amount >= amount);

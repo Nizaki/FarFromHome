@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1900e26b77419c42a3582178e004adb, type: 3}
+  m_Name: InventoryCraftRecipe
+  m_EditorClassIdentifier: 
+  recipes:
+  - result: furnace
+    amount: 1
+    ingredient:
+    - id: stone
+      amount: 8
+  - result: wood_plank
+    amount: 4
+    ingredient:
+    - id: log
+      amount: 1
+  - result: chest
+    amount: 4
+    ingredient:
+    - id: wood_plank
+      amount: 4
+  - result: crafting_table
+    amount: 4
+    ingredient:
+    - id: log
+      amount: 4
